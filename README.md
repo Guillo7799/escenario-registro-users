@@ -24,7 +24,8 @@ Este es el comando recomendado para la presentación:
 npm run test:demo
 ```
 
-Chromium se abrirá automáticamente y ejecutará los tres casos uno por uno, con pausas visibles entre las acciones. No es necesario iniciar la aplicación previamente.
+Chromium se abrirá automáticamente y ejecutará los tres casos uno por uno, con pausas visibles entre las acciones.
+OJO - No es necesario iniciar la aplicación previamente.
 
 ## 3. Abrir el reporte de resultados
 
@@ -42,12 +43,6 @@ npm run test:ui   # Abre la interfaz interactiva de Playwright
 npm start         # Abre solamente la aplicación para revisión manual
 ```
 
-Si utilizas `npm start`, visita <http://127.0.0.1:4173> y presiona `Ctrl+C` en la terminal para detener el servidor.
+Al utilizar `npm start`, se levanta la página de manera local en la ruta: <http://127.0.0.1:4173>
 
-## Archivos principales
-
-- Documento del desafío: [`docs/entregable-qa.md`](docs/entregable-qa.md)
-- Pruebas automatizadas: [`tests/solicitudes.spec.js`](tests/solicitudes.spec.js)
-- Reporte generado: `playwright-report/index.html`
-
-> La aplicación usa datos simulados y reinicia su estado al recargar la página.
+> La aplicación usa datos ficticios harckodeados y reinicia su estado al recargar la página (solo por motivos de prueba).
