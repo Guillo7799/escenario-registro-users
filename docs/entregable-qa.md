@@ -307,6 +307,8 @@ Antes de una nueva ronda se recomienda implementar autorización en backend y pr
 
 Se implementó un ejemplo con **Playwright y TypeScript/JavaScript** sobre la interfaz demostrativa. La configuración genera reporte HTML y conserva captura, video y traza cuando falla una prueba.
 
+Para la presentación se incluye `npm run test:demo`, que abre Chromium y ejecuta los casos secuencialmente con una pausa entre acciones. Así el evaluador puede observar el flujo real automatizado; `npm test` conserva la ejecución rápida para integración continua.
+
 | ID | Caso automatizado | Justificación y valor | Nivel recomendado |
 |---|---|---|---|
 | AUTO-001 | Registro válido y estado pendiente | Es el flujo de mayor uso y valida formulario, carga PDF, persistencia visible y estado inicial. Detecta regresiones de extremo a extremo. | E2E UI; complementar creación/estado en API. |

@@ -31,6 +31,7 @@ body { background: var(--page); color: var(--ink); min-height: 100vh; }
 .audit-list li::before { background: var(--brand); border: 3px solid #fff; border-radius: 50%; content: ''; height: 12px; left: -1.67rem; position: absolute; top: .3rem; width: 12px; }
 .audit-meta { color: #777b8f; display: block; font-size: .75rem; }
 .form-control:focus, .form-select:focus { border-color: #8e8ce2; box-shadow: 0 0 0 .25rem rgba(61, 59, 184, .12); }
+.invalid-feedback:not(:empty) { display: block; }
 
 @media (max-width: 767px) {
   .hero-card { align-items: stretch; flex-direction: column; }
