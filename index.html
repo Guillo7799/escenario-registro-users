@@ -1,150 +1,292 @@
 <!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal de Solicitudes</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header class="app-header">
-    <nav class="container navbar navbar-expand-lg navbar-dark py-3" aria-label="Navegación principal">
-      <a class="navbar-brand fw-bold" href="#">Solicita</a>
-      <span class="environment-badge ms-2">DEMO QA</span>
-      <div class="ms-auto d-flex align-items-center gap-3">
-        <label for="user-selector" class="small text-white-50 mb-0">Sesión activa</label>
-        <select id="user-selector" class="form-select form-select-sm user-selector" aria-label="Usuario activo">
-          <option value="creator">Laura Gómez — Creador</option>
-          <option value="approver">Andrés Ruiz — Aprobador</option>
-          <option value="selfApprover">Laura Gómez — Aprobador</option>
-        </select>
-      </div>
-    </nav>
-  </header>
-
-  <main class="container py-4 py-lg-5">
-    <section class="hero-card mb-4">
-      <div>
-        <p class="eyebrow mb-2">GESTIÓN DE CRÉDITO</p>
-        <h1 class="h2 mb-2">Solicitudes de financiación</h1>
-        <p class="text-secondary mb-0">Registra, consulta y gestiona solicitudes desde un solo lugar.</p>
-      </div>
-      <button id="new-request-button" class="btn btn-primary px-4" type="button">+ Nueva solicitud</button>
-    </section>
-
-    <div id="global-alert" class="alert d-none" role="alert" aria-live="polite"></div>
-
-    <section id="request-list-section" aria-labelledby="requests-title">
-      <div class="section-card">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
-          <div>
-            <h2 id="requests-title" class="h5 mb-1">Solicitudes recientes</h2>
-            <p class="small text-secondary mb-0">Selecciona una solicitud para consultar su detalle.</p>
-          </div>
-          <span id="role-description" class="role-chip"></span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal de Solicitudes</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <nav
+        class="container navbar navbar-expand-lg navbar-dark py-3"
+        aria-label="Navegación principal"
+      >
+        <a class="navbar-brand fw-bold" href="#">Pídelo</a>
+        <!--<span class="environment-badge ms-2">DEMO QA</span>-->
+        <div class="ms-auto d-flex align-items-center gap-3">
+          <label for="user-selector" class="small text-white-50 mb-0"
+            >Sesión activa</label
+          >
+          <select
+            id="user-selector"
+            class="form-select form-select-sm user-selector"
+            aria-label="Usuario activo"
+          >
+            <option value="creator">Laura Gómez — Creador</option>
+            <option value="approver">Andrés Ruiz — Aprobador</option>
+            <option value="selfApprover">Laura Gómez — Aprobador</option>
+          </select>
         </div>
-        <div class="table-responsive">
-          <table class="table align-middle mb-0">
-            <thead>
-              <tr>
-                <th>Radicado</th><th>Identificación</th><th>Solicitante</th><th>Monto</th><th>Estado</th><th></th>
-              </tr>
-            </thead>
-            <tbody id="requests-body"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+      </nav>
+    </header>
 
-    <section id="new-request-section" class="d-none" aria-labelledby="form-title">
-      <div class="section-card">
-        <div class="d-flex justify-content-between align-items-start mb-4">
-          <div>
-            <p class="eyebrow mb-1">NUEVO REGISTRO</p>
-            <h2 id="form-title" class="h4 mb-1">Nueva solicitud</h2>
-            <p class="text-secondary mb-0">Los campos marcados con * son obligatorios.</p>
-          </div>
-          <button class="btn-close close-form" type="button" aria-label="Cerrar formulario"></button>
+    <main class="container py-4 py-lg-5">
+      <section class="hero-card mb-4">
+        <div>
+          <p class="eyebrow mb-2">GESTIÓN DE CRÉDITO</p>
+          <h1 class="h2 mb-2">Solicitudes de financiación</h1>
+          <p class="text-secondary mb-0">
+            Registra, consulta y gestiona solicitudes desde un solo lugar.
+          </p>
         </div>
+        <button
+          id="new-request-button"
+          class="btn btn-primary px-4"
+          type="button"
+        >
+          + Nueva solicitud
+        </button>
+      </section>
 
-        <form id="request-form" novalidate>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="identification" class="form-label">Número de identificación *</label>
-              <input id="identification" name="identification" class="form-control" required>
-              <div class="invalid-feedback"></div>
-            </div>
-            <div class="col-md-6">
-              <label for="full-name" class="form-label">Nombres completos *</label>
-              <input id="full-name" name="fullName" class="form-control" required>
-              <div class="invalid-feedback"></div>
-            </div>
-            <div class="col-md-6">
-              <label for="email" class="form-label">Correo electrónico *</label>
-              <input id="email" name="email" type="email" class="form-control" required>
-              <div class="invalid-feedback"></div>
-            </div>
-            <div class="col-md-6">
-              <label for="client-type" class="form-label">Tipo de cliente *</label>
-              <select id="client-type" name="clientType" class="form-select" required>
-                <option value="">Selecciona una opción</option>
-                <option value="Natural">Natural</option>
-                <option value="Jurídico">Jurídico</option>
-              </select>
-              <div class="invalid-feedback"></div>
-            </div>
-            <div class="col-md-6">
-              <label for="amount" class="form-label">Monto solicitado *</label>
-              <div class="input-group"><span class="input-group-text">$</span><input id="amount" name="amount" type="number" min="0.01" step="0.01" class="form-control" required></div>
-              <div class="invalid-feedback"></div>
-            </div>
-            <div class="col-md-6">
-              <label for="request-date" class="form-label">Fecha de solicitud *</label>
-              <input id="request-date" name="requestDate" type="date" class="form-control" required>
-              <div class="invalid-feedback"></div>
-            </div>
-            <div class="col-12">
-              <label for="document" class="form-label">Documento de soporte PDF *</label>
-              <input id="document" name="document" type="file" class="form-control" accept="application/pdf,.pdf" required>
-              <div class="form-text">Un único archivo PDF válido, máximo 5 MB.</div>
-              <div class="invalid-feedback"></div>
-            </div>
-          </div>
-          <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
-            <button class="btn btn-outline-secondary close-form" type="button">Cancelar</button>
-            <button class="btn btn-primary px-4" type="submit">Guardar solicitud</button>
-          </div>
-        </form>
-      </div>
-    </section>
+      <div
+        id="global-alert"
+        class="alert d-none"
+        role="alert"
+        aria-live="polite"
+      ></div>
 
-    <section id="detail-section" class="d-none" aria-labelledby="detail-title">
-      <div class="section-card">
-        <div class="d-flex justify-content-between align-items-start mb-4">
-          <div><p class="eyebrow mb-1">DETALLE</p><h2 id="detail-title" class="h4 mb-0"></h2></div>
-          <button id="close-detail" class="btn-close" type="button" aria-label="Cerrar detalle"></button>
-        </div>
-        <div id="detail-content"></div>
-        <div id="decision-panel" class="decision-panel mt-4 d-none">
-          <h3 class="h6">Decisión del aprobador</h3>
-          <label for="decision-comment" class="form-label">Observación o motivo</label>
-          <textarea id="decision-comment" class="form-control" rows="3" placeholder="Describe la decisión"></textarea>
-          <div id="decision-error" class="text-danger small mt-2 d-none"></div>
-          <div class="d-flex gap-2 mt-3">
-            <button id="approve-button" class="btn btn-success" type="button">Aprobar</button>
-            <button id="reject-button" class="btn btn-outline-danger" type="button">Rechazar</button>
+      <section id="request-list-section" aria-labelledby="requests-title">
+        <div class="section-card">
+          <div
+            class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4"
+          >
+            <div>
+              <h2 id="requests-title" class="h5 mb-1">Solicitudes recientes</h2>
+              <p class="small text-secondary mb-0">
+                Selecciona una solicitud para consultar su detalle.
+              </p>
+            </div>
+            <span id="role-description" class="role-chip"></span>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Radicado</th>
+                  <th>Identificación</th>
+                  <th>Solicitante</th>
+                  <th>Monto</th>
+                  <th>Estado</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="requests-body"></tbody>
+            </table>
           </div>
         </div>
-        <div class="mt-4">
-          <h3 class="h6">Historial de acciones</h3>
-          <ul id="audit-list" class="audit-list"></ul>
-        </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <footer class="container pb-4 small text-secondary">Prototipo funcional para desafío técnico QA · Los datos son simulados.</footer>
-  <script src="app.js"></script>
-</body>
+      <section
+        id="new-request-section"
+        class="d-none"
+        aria-labelledby="form-title"
+      >
+        <div class="section-card">
+          <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+              <p class="eyebrow mb-1">NUEVO REGISTRO</p>
+              <h2 id="form-title" class="h4 mb-1">Nueva solicitud</h2>
+              <p class="text-secondary mb-0">
+                Los campos marcados con * son obligatorios.
+              </p>
+            </div>
+            <button
+              class="btn-close close-form"
+              type="button"
+              aria-label="Cerrar formulario"
+            ></button>
+          </div>
+
+          <form id="request-form" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="identification" class="form-label"
+                  >Número de identificación *</label
+                >
+                <input
+                  id="identification"
+                  name="identification"
+                  class="form-control"
+                  required
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="col-md-6">
+                <label for="full-name" class="form-label"
+                  >Nombres completos *</label
+                >
+                <input
+                  id="full-name"
+                  name="fullName"
+                  class="form-control"
+                  required
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="col-md-6">
+                <label for="email" class="form-label"
+                  >Correo electrónico *</label
+                >
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  class="form-control"
+                  required
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="col-md-6">
+                <label for="client-type" class="form-label"
+                  >Tipo de cliente *</label
+                >
+                <select
+                  id="client-type"
+                  name="clientType"
+                  class="form-select"
+                  required
+                >
+                  <option value="">Selecciona una opción</option>
+                  <option value="Natural">Natural</option>
+                  <option value="Jurídico">Jurídico</option>
+                </select>
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="col-md-6">
+                <label for="amount" class="form-label"
+                  >Monto solicitado *</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text">$</span
+                  ><input
+                    id="amount"
+                    name="amount"
+                    type="number"
+                    min="0.01"
+                    step="0.01"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="col-md-6">
+                <label for="request-date" class="form-label"
+                  >Fecha de solicitud *</label
+                >
+                <input
+                  id="request-date"
+                  name="requestDate"
+                  type="date"
+                  class="form-control"
+                  required
+                />
+                <div class="invalid-feedback"></div>
+              </div>
+              <div class="col-12">
+                <label for="document" class="form-label"
+                  >Documento de soporte PDF *</label
+                >
+                <input
+                  id="document"
+                  name="document"
+                  type="file"
+                  class="form-control"
+                  accept="application/pdf,.pdf"
+                  required
+                />
+                <div class="form-text">
+                  Un único archivo PDF válido, máximo 5 MB.
+                </div>
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+              <button
+                class="btn btn-outline-secondary close-form"
+                type="button"
+              >
+                Cancelar
+              </button>
+              <button class="btn btn-primary px-4" type="submit">
+                Guardar solicitud
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section
+        id="detail-section"
+        class="d-none"
+        aria-labelledby="detail-title"
+      >
+        <div class="section-card">
+          <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+              <p class="eyebrow mb-1">DETALLE</p>
+              <h2 id="detail-title" class="h4 mb-0"></h2>
+            </div>
+            <button
+              id="close-detail"
+              class="btn-close"
+              type="button"
+              aria-label="Cerrar detalle"
+            ></button>
+          </div>
+          <div id="detail-content"></div>
+          <div id="decision-panel" class="decision-panel mt-4 d-none">
+            <h3 class="h6">Decisión del aprobador</h3>
+            <label for="decision-comment" class="form-label"
+              >Observación o motivo</label
+            >
+            <textarea
+              id="decision-comment"
+              class="form-control"
+              rows="3"
+              placeholder="Describe la decisión"
+            ></textarea>
+            <div
+              id="decision-error"
+              class="text-danger small mt-2 d-none"
+            ></div>
+            <div class="d-flex gap-2 mt-3">
+              <button id="approve-button" class="btn btn-success" type="button">
+                Aprobar
+              </button>
+              <button
+                id="reject-button"
+                class="btn btn-outline-danger"
+                type="button"
+              >
+                Rechazar
+              </button>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h3 class="h6">Historial de acciones</h3>
+            <ul id="audit-list" class="audit-list"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container pb-4 small text-secondary">PWD By GalesDv</footer>
+    <script src="app.js"></script>
+  </body>
 </html>

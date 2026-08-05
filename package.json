@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.mjs",
     "test": "playwright test",
+    "test:demo": "node demo-tests.mjs",
     "test:headed": "playwright test --headed",
     "test:ui": "playwright test --ui",
     "report": "playwright show-report"
