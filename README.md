@@ -44,10 +44,4 @@ npm start         # Abre solamente la aplicación para revisión manual
 
 Si utilizas `npm start`, visita <http://127.0.0.1:4173> y presiona `Ctrl+C` en la terminal para detener el servidor.
 
-## Archivos principales
-
-- Documento del desafío: [`docs/entregable-qa.md`](docs/entregable-qa.md)
-- Pruebas automatizadas: [`tests/solicitudes.spec.js`](tests/solicitudes.spec.js)
-- Reporte generado: `playwright-report/index.html`
-
 > La aplicación usa datos simulados y reinicia su estado al recargar la página.
